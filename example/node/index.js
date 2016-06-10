@@ -5,7 +5,7 @@ hypernova({
 
   getComponent(name) {
     if (name === 'Component') {
-      return require('./lib/Component').default;
+      return require('./lib/Component');
     }
 
     return null;
