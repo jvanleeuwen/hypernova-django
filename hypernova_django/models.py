@@ -101,8 +101,11 @@ class Renderer(object):
         result = response.json()
         results = result.get('results', [])
 
-        for job in results.values():
-            if job.get('error', False):
-                self.plugin_reduce('onError', lambda plugin: plugin(job.get('error'), job))
+        try:
+            for job in results.values():
+                if job.get('error', False):
+                    self.plugin_reduce('onError', lambda plugin: plugin(job.get('error'), job))
+        except:
+            pass
 
         return to_html(results)
