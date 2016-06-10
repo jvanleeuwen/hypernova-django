@@ -20,6 +20,13 @@ def render_html(view_name, data):
     ).format(view_name=view_name, data=data)
 
 
+def to_html(views):
+    def callback(res, name):
+        return res + views[name]['html']
+
+    return reducer(views, '', callback)
+
+
 class Renderer(object):
 
     def __init__(self, options):
@@ -37,29 +44,27 @@ class Renderer(object):
         self.plugins.append(plugin)
 
     def plugin_reduce(self, event_name, f, initial):
-        def reducer(res, plugin):
+        def callback(res, plugin):
             if plugin[event_name]:
                 return f(plugin[event_name], res)
             return res
 
-        return reduce(reducer, self.plugins, initial)
+        return reduce(callback, self.plugins, initial)
 
     def prepare_request(self, jobs):
 
         def plugin(plugin, next):
             return plugin(next, jobs)
 
-        jobsHash = self.plugin_reduce(
+        jobs_hash = self.plugin_reduce(
             'prepareRequest',
             plugin,
             jobs
         )
 
-        print jobsHash
-
         return {
             'shouldSendRequest': True,
-            'jobsHash': jobsHash,
+            'jobsHash': jobs_hash,
         }
 
     def create_jobs(self, jobs):
@@ -92,8 +97,12 @@ class Renderer(object):
         jobs = self.create_jobs(data)
         prepared = self.prepare_request(jobs)
 
-        print prepared['jobsHash']
+        response = requests.post(self.url, json=prepared['jobsHash'], headers=self.config['headers'])
+        result = response.json()
+        results = result.get('results', [])
 
-        result = requests.post(self.url, json=prepared['jobsHash'], headers=self.config['headers'])
+        for job in results.values():
+            if job.get('error', False):
+                self.plugin_reduce('onError', lambda plugin: plugin(job.get('error'), job))
 
-        return result.text
+        return to_html(results)
