@@ -21,4 +21,17 @@ To run this example, follow these instructions:
 
 		python manage.py runserver
 		
-5. Access from the browser at `http://127.0.0.1:8000`
+5. Init the Node server
+
+        nvm use
+        
+        npm install
+        
+6. Start Hypernova
+
+        npm start
+        
+7. Access from the browser at `http://127.0.0.1:8000` and profit!
+
+
+    
