@@ -8,16 +8,19 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node node/index",
-    "build": "BABEL_ENV=commonjs ./node_modules/.bin/babel ./node/src --out-dir ./node/lib"
+    "start": "node server",
+    "build": "BABEL_ENV=commonjs ./node_modules/.bin/babel ./node/src --out-dir ./node/lib",
+    "webpack": "./node_modules/.bin/webpack --config webpack.config.js"
   },
   "author": "Jeroen van Leeuwen",
   "license": "MIT",
   "dependencies": {
+    "babel-loader": "^6.2.4",
     "hypernova": "^1.0.0",
     "hypernova-react": "^1.0.0",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "webpack": "^1.13.1"
   },
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.2.1"

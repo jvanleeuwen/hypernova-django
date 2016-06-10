@@ -1,0 +1,1 @@
+/Users/jvanleeuwen/Projects/django/hypernova-django/example/render/static/render/js/bundle.js

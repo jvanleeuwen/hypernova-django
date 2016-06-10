@@ -1,0 +1,21 @@
+{% load staticfiles i18n render_react_component %}
+
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Django Hypernova{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+  </head>
+
+  <body>
+    <div id="container">
+      {% render_react_component component props %}
+    </div>
+
+    <script src="{% static 'render/js/bundle.js' %}"></script>
+  </body>
+</html>
+
