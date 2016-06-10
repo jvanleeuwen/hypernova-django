@@ -1,38 +1,28 @@
 # -*- coding: utf-8 -*-
+from django.http import (
+    HttpResponse
+)
+
 from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    UpdateView,
-    ListView
+    TemplateView
 )
 
 from .models import (
-	Renderer,
+    Renderer,
 )
 
 
-class RendererCreateView(CreateView):
-
-    model = Renderer
-
-
-class RendererDeleteView(DeleteView):
-
-    model = Renderer
+renderer = Renderer({
+    'url': 'http://localhost:3553/batch',
+})
 
 
-class RendererDetailView(DetailView):
+class RendererListView(TemplateView):
+    template_name = 'hypernova_django/base.html'
 
-    model = Renderer
-
-
-class RendererUpdateView(UpdateView):
-
-    model = Renderer
-
-
-class RendererListView(ListView):
-
-    model = Renderer
+    def render_to_response(self, context, **response_kwargs):
+        jobs = {
+            'Component': {'prop': 'value'},
+        }
+        return HttpResponse(renderer.render(jobs))
 

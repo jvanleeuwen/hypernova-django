@@ -1,0 +1,21 @@
+{
+  "name": "hypernova-django-example",
+  "version": "0.1.0",
+  "description": "Hypernova Django Example",
+  "main": "node/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node/index"
+  },
+  "author": "Jeroen van Leeuwen",
+  "license": "MIT",
+  "dependencies": {
+    "hypernova": "^1.0.0",
+    "hypernova-react": "^1.0.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  }
+}
