@@ -34,6 +34,10 @@ class Renderer(object):
 
         self.url = options.get('url')
         self.plugins = options.get('plugins', [])
+
+        if not isinstance(self.plugins, list):
+            self.plugins = [options.get('plugins')]
+
         self.config = {
             'timeout': 1000,
             'headers': {'Content-Type': 'application/json'},
@@ -101,11 +105,9 @@ class Renderer(object):
         result = response.json()
         results = result.get('results', [])
 
-        try:
-            for job in results.values():
-                if job.get('error', False):
-                    self.plugin_reduce('onError', lambda plugin: plugin(job.get('error'), job))
-        except:
-            pass
+        for job in results.values():
+            if job.get('error', False):
+                error = job.get('error')
+                return self.plugin_reduce('onError', lambda plugin, _: plugin(error.get('message')), job)
 
         return to_html(results)
